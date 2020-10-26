@@ -1,0 +1,48 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<!--tomcat 启动完会执行-->
+<web-app>
+	<display-name>OnlineShop WebSite</display-name>
+
+	<!-- to connect the dispatcher servlet and applicationContext -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/onlineShop-servlet.xml,
+			/WEB-INF/webflowConfig.xml
+		</param-value>
+	</context-param>
+	
+	<!-- 验证，user 有没有权限来访问url -->
+	<filter>
+  		<filter-name>springSecurityFilterChain</filter-name>
+  		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+  		<filter-name>springSecurityFilterChain</filter-name>
+  		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+
+	<!-- it is used to listen the contextloader -->
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+   
+	<servlet>
+		<servlet-name>onlineShop</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	
+	<!--以什么路径开始拦截，程序的入口-->
+	<servlet-mapping>
+		<servlet-name>onlineShop</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+</web-app>
